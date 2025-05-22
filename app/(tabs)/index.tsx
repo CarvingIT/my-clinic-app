@@ -35,7 +35,7 @@ const LoginForm = () => {
         finally{
             //Navigate to the authenticated screen or perform other actions
             const router = useRouter();
-            router.push('/users/dashboard');
+            router.push('/dashboard');
         }
       }
       else{
