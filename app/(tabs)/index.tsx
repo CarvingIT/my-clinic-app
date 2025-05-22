@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { ThemedText } from '@/components/ThemedText';
 import * as SecureStore from 'expo-secure-store';
 import { fetch } from 'expo/fetch';
+import { useRouter } from 'expo-router';
 
 const LoginForm = () => {
   const [email, setEmail] = useState('');
@@ -10,7 +12,7 @@ const LoginForm = () => {
   const handleLogin = async () => {
     console.log('Email:', email, 'Password:', password);
     // Here, you would typically handle authentication logic
-    const response = await fetch('http://my-clinic.local/api/login', {
+    const response = await fetch(process.env.EXPO_PUBLIC_API_BASE + '/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -21,21 +23,33 @@ const LoginForm = () => {
     if (response.ok) {
       const json = await response.json();
       console.log(json.status);
-      //const token = json.token; // Assuming the token is in the 'token' field
-      //await SecureStore.setItemAsync('token', token);
-      // Navigate to the authenticated screen or perform other actions
+      if(json.status == 1 && json.token){
+        const token = json.token; 
+        console.log(token);
+        // Store the token
+        try{
+            await SecureStore.setItemAsync('token', token);
+        } catch (error: any){
+            console.error("An error occurred:", error.message);
+        }
+        finally{
+            //Navigate to the authenticated screen or perform other actions
+            const router = useRouter();
+            router.push('/users/dashboard');
+        }
+      }
+      else{
+        console.error('Login failed:', response.status);
+      }
     } else {
       // Handle errors (e.g., display an error message)
       console.error('Login failed:', response.status);
     }
-
-    // Store the token
-    //await SecureStore.setItemAsync('token', token);
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Login</Text>
+      <ThemedText style={styles.title}>Login</ThemedText>
       <TextInput
         style={styles.input}
         placeholder="Email"
@@ -73,6 +87,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 10,
     paddingHorizontal: 10,
+    backgroundColor:'#eee',
   },
 });
 
