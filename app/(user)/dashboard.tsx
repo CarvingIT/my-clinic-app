@@ -8,7 +8,12 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 
+import { useSession } from '../../ctx';
+
 export default function TabTwoScreen() {
+
+  const { signOut } = useSession();
+
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
@@ -24,6 +29,7 @@ export default function TabTwoScreen() {
         <ThemedText type="title">Dashboard</ThemedText>
       </ThemedView>
       <ThemedText>This app includes example code to help you get started.</ThemedText>
+      <ThemedText onPress={() => { signOut(); }}>Sign Out</ThemedText>
       <Collapsible title="File-based routing">
         <ThemedText>
           This app has two screens:{' '}

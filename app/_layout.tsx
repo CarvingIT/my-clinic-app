@@ -29,19 +29,18 @@ export default function RootLayout() {
 
 function StackWithTheme(){
   const { session } = useSession();
+  //const session = false;
   const colorScheme = useColorScheme();
 
     return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
-        <Stack.Protected guard={session}>
-            <Stack.Screen name="(user)" />
-        </Stack.Protected>
         <Stack.Protected guard={!session}>
             <Stack.Screen name="login" />
         </Stack.Protected>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
+        <Stack.Protected guard={session}>
+            <Stack.Screen name="(user)/dashboard" />
+        </Stack.Protected>
       </Stack>
       <StatusBar style="auto" />
     </ThemeProvider>
