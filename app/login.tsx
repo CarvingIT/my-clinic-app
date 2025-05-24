@@ -5,9 +5,13 @@ import * as SecureStore from 'expo-secure-store';
 import { fetch } from 'expo/fetch';
 import { useRouter } from 'expo-router';
 
+import { useSession } from '../ctx';
+
 const LoginForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const { signIn } = useSession();
 
   const handleLogin = async () => {
     console.log('Email:', email, 'Password:', password);
@@ -28,7 +32,8 @@ const LoginForm = () => {
         console.log(token);
         // Store the token
         try{
-            await SecureStore.setItemAsync('token', token);
+            //await SecureStore.setItemAsync('token', token);
+            signIn();
         } catch (error: any){
             console.error("An error occurred:", error.message);
         }
