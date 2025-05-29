@@ -10,21 +10,21 @@ import { SplashScreenController } from '../splash'
 import { useColorScheme } from '@/hooks/useColorScheme';
 
 export default function RootLayout() {
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
+    const [loaded] = useFonts({
+        SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+    });
 
-  if (!loaded) {
-    // Async font loading only occurs in development.
-    return null;
-  }
+    if (!loaded) {
+        // Async font loading only occurs in development.
+        return null;
+    }
 
-  return (
-    <SessionProvider>
-      <SplashScreenController />
-      <StackWithTheme />
-    </SessionProvider>
-  );
+    return (
+        <SessionProvider>
+            <SplashScreenController />
+            <StackWithTheme />
+        </SessionProvider>
+    );
 }
 
 function StackWithTheme(){
@@ -40,6 +40,12 @@ function StackWithTheme(){
         </Stack.Protected>
         <Stack.Protected guard={session}>
             <Stack.Screen name="(user)/dashboard" />
+        </Stack.Protected>
+        <Stack.Protected guard={session}>
+            <Stack.Screen name="(user)/patients" />
+        </Stack.Protected>
+        <Stack.Protected guard={session}>
+            <Stack.Screen name="(user)/queue" />
         </Stack.Protected>
       </Stack>
       <StatusBar style="auto" />
