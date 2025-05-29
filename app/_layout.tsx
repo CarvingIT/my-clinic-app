@@ -35,17 +35,11 @@ function StackWithTheme(){
     return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
+        <Stack.Protected guard={session}>
+            <Stack.Screen name="(user)" options={{ headerShown: false }} />
+        </Stack.Protected>
         <Stack.Protected guard={!session}>
             <Stack.Screen name="login" />
-        </Stack.Protected>
-        <Stack.Protected guard={session}>
-            <Stack.Screen name="(user)/dashboard" />
-        </Stack.Protected>
-        <Stack.Protected guard={session}>
-            <Stack.Screen name="(user)/patients" />
-        </Stack.Protected>
-        <Stack.Protected guard={session}>
-            <Stack.Screen name="(user)/queue" />
         </Stack.Protected>
       </Stack>
       <StatusBar style="auto" />

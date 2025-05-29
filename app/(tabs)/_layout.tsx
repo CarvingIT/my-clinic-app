@@ -27,7 +27,7 @@ export default function TabLayout() {
         }),
       }}>
       <Tabs.Screen
-        name="dashboard"
+        name="help"
         options={{
           title: 'Help',
           href: null,

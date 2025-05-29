@@ -10,7 +10,7 @@ import { IconSymbol } from '@/components/ui/IconSymbol';
 
 import { useSession } from '../../ctx';
 
-export default function TabTwoScreen() {
+export default function PatientsScreen() {
 
   const { signOut } = useSession();
 
