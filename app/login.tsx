@@ -8,6 +8,7 @@ import { useRouter } from 'expo-router';
 import { useSession } from '../ctx';
 
 const LoginForm = () => {
+  const router = useRouter(); // Moved to top level
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -17,33 +18,33 @@ const LoginForm = () => {
     console.log('Email:', email, 'Password:', password);
     // Here, you would typically handle authentication logic
     const response = await fetch(process.env.EXPO_PUBLIC_API_BASE + '/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      });
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, password }),
+    });
 
     if (response.ok) {
       const json = await response.json();
       console.log(json.status);
-      if(json.status == 1 && json.token){
-        const token = json.token; 
+      if (json.status == 1 && json.token) {
+        const token = json.token;
         console.log(token);
         // Store the token
-        try{
-            //await SecureStore.setItemAsync('token', token);
-            signIn();
-        } catch (error: any){
-            console.error("An error occurred:", error.message);
+        try {
+          //await SecureStore.setItemAsync('token', token);
+          signIn();
+        } catch (error: any) {
+          console.error("An error occurred:", error.message);
         }
-        finally{
-            //Navigate to the authenticated screen or perform other actions
-            const router = useRouter();
-            router.push('/dashboard');
+        finally {
+          //Navigate to the authenticated screen or perform other actions
+
+          router.push('/dashboard');
         }
       }
-      else{
+      else {
         console.error('Login failed:', response.status);
       }
     } else {
@@ -92,7 +93,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 10,
     paddingHorizontal: 10,
-    backgroundColor:'#eee',
+    backgroundColor: '#eee',
   },
 });
 
