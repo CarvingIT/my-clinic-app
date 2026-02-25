@@ -27,22 +27,23 @@ export default function RootLayout() {
   );
 }
 
-function StackWithTheme(){
-  const { session } = useSession();
-  //const session = false;
+function StackWithTheme() {
   const colorScheme = useColorScheme();
 
-    return (
+  return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
-        <Stack.Protected guard={!session}>
-            <Stack.Screen name="login" />
-        </Stack.Protected>
-        <Stack.Protected guard={session}>
-            <Stack.Screen name="(user)/dashboard" />
-        </Stack.Protected>
+        <Stack.Screen name="index" options={{ headerShown: false }} />
+        <Stack.Screen name="login" options={{ headerShown: false }} />
+        <Stack.Screen name="(user)" options={{ headerShown: false }} />
+        <Stack.Screen name="+not-found" />
+        {/* Demo screens – bypass auth */}
+        <Stack.Screen name="splash-screen" options={{ headerShown: false }} />
+        <Stack.Screen name="instances" options={{ headerShown: false }} />
+        <Stack.Screen name="collections" options={{ headerShown: false }} />
+        <Stack.Screen name="documents" options={{ headerShown: false }} />
       </Stack>
       <StatusBar style="auto" />
     </ThemeProvider>
-    );
+  );
 }
